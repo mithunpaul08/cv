@@ -6,10 +6,9 @@
 
 
 \documentclass[10pt]{article}
-
 \usepackage{graphicx}
 \usepackage{wrapfig}
-\usepackage[most]{tcolorbox}
+%\usepackage[most]{tcolorbox}
 
 
 %\usepackage{simplemargins}
@@ -39,34 +38,66 @@
 \begin{center}
 {\Large \bf Research Statement\\
 \smallskip
-{\large \bf Mitch Paul Mithun }}
+{\large \bf Mitch Paul Mithun}}
 \end{center}
-%\smallskip
-
-\subsection*{Contributions to Course Development}
-
-When I started at UA there were limited opportunities for students interested in NLP. The only NLP course offered at the time was Statistical Natural Language Processing, in Linguistics. While this is a great course, it is not sufficient to cover the entire field of NLP. 
-%In particular, this course covers only some of the machine learning (ML) models used in NLP, and does not address at all the building of end-to-end NLP applications. 
-To address these curriculum limitations, I created two courses in my first two years at UA: ISTA 456/556 Text Retrieval and Web Search, which focuses on information retrieval (this course has been renumbered as CSC 483/583), and ISTA 455/555 Applied Natural Language Processing, which is designed as a continuation of the Statistical NLP course, emphasizing the development of complete, end-to-end NLP applications.  Additionally, I contributed to the development of ISTA 116, a foundational course that is fundamental to students interested in NLP.
-
-More recently, I contributed to the creation of a single landing page for NLP at UA (\url{http://nlp.arizona.edu}), so students have an immediate understanding of the availability of NLP faculty on campus. The next step is to create a unified NLP curriculum. For this, I will work together with the Human Language Technology program in Linguistics\footnote{I currently hold a courtesy appointment in Linguistics.} and the other faculty listed in the website above to make sure that the courses we design and teach complement well the courses currently offered. For example, I have recently designed a course called Algorithms for Natural Language Processing, which will cover more modern algorithms for NLP that are not covered in the Statistical Natural Language Processing course such as recurrent neural networks.
-
-\subsection*{Teaching Principles}
-
-As a teacher, I explore new ways of presenting the material in order to emphasize the big picture behind the material covered. Showing how the fundamental principles covered in the subject matter impact real life (e.g., smarter search engines due to natural language understanding; novel disease treatments due to big data analysis) engages the students, and gives them a glimpse of where they could potentially use the material in a real-world career.
-
-A second focus of my teaching work is personalization of information dissemination. 
-I have personalized the learning experience in my courses or laboratories through customizable assignments and projects. This allows students to choose a preferred learning path that emphasizes either practice, or theory, or both.
-I also believe that teaching is not a one-way process. I prefer to receive continuous feedback from students (either through comments during class or a series of ungraded quizzes) about the quality of my teaching and of the course materials. In the past few years I have a included an informal teacher and course evaluation (TCE) quiz that students take mid semester. This helps me adjust the delivery of the course to the students currently taking it. This is important especially for NLP courses, which tend to be attended by students from multiple departments, with various backgrounds. 
-
-Furthermore, I aim to further improve engagement through active learning. My preferred method is through course projects that tackle important issues. For example, the course project for the Text Retrieval and Web Search course in Spring 2017 is the Fake News Challenge (\url{http://www.fakenewschallenge.org}). We approach these projects top down, e.g., Why is the detection of fake news important?; How would you tackle it intuitively?; What knowledge do we need to actually implement these ideas? I have found this strategy to engage students considerably more than passively teaching about NLP and ML. 
-
-Lastly, I try to be as hands-on as possible in my teaching activities. I regularly help students with their code. I continue to code, and continue to be one of the main contributors to our public software projects, which helps me be up to date on software development, and provide relevant practical feedback. I encourage students to approach me with any issues, ranging from theory to coding questions: I have an open-door policy in addition to regular weekly office hours. 
 
 
-As a result of applying these teaching principles, I have received consistently high TCEs in my teaching activity at UA, with a score usually over 4.5/5 on my teaching effectiveness, the rating of the course, and usefulness of lecture and other materials. 
+\section{Research Accomplishments}
+
+My research is on natural language processing, that is, getting computers to understand human language. Specifically, I work on  building natural language inference (NLI) models which can be used for identifying the trustworthiness of online information. This is an important challenge: around 67\% Americans reported that fake news causes confusion about simple information that they read online and 54\% say that fake news affects their confidence in other people they interact with (Pew Research, 2019), making fake news a very important societal issue.
+
+While there have been several methods created to address and automate online fact verification, humans still seem to have a better ability than machines to distinguish good facts from bad facts. I believe this is because we use background and domain knowledge while these methods only look at facts as independent silos. Inspired from this observation, my research aims on building robust methods for fact verification by aggregating information across multiple facts (e.g., based on whether the facts support or refute with each other) and aim to reach global conclusions from this aggregation. 
+To achieve information aggregation for fact verification, relevant facts must be mined and included into a graph where nodes represent facts and edges represent the relation between them. 
+Further, these graphs must be analyzed using a holistic scoring and ranking algorithm which assigns a truthfulness score for any given piece of text.
+
+As a first step towards this goal, I believe, it is important that these graphs be made robust by creating neural network methods which can learn knowledge that is domain transferable. To this end, we\footnote{Unless otherwise specified, plural first-person pronouns refer to my collaborators and I, where collaborators come mostly from the computational language understanding (CLU) lab at the University of Arizona.}  have developed two important research techniques, data distillation and model distillation. We showed that these techniques enable the neural network models to learn the underlying semantics which enable them to perform well on other datasets and domains, other than the ones they were trained on.
+I detail these techniques below:
+\subsection{Neural networks that can learn domain transferable information}While neural networks produce state-of-the-art performance in many NLP tasks, it has been shown that several such models depend heavily on certain statistical nuances and lexical artifacts found in these datasets, information that transfers poorly between domains.
+For example when we inspected the  the attention weights assigned by the model trained in a fact verification task, we found that attention weights tend to be directed towards words and noun phrases that are more likely to be domain specific, which considerably
+impacts performance in an out-of-domain setting.
+
+Hence I felt it is important to first device techniques that can enable models to learn the underlying semantics and mitigate the dependence on lexicalized information.
+In my work, I have approached the goal of building domain transferable neural networks from multiple perspectives:
+\subsubsection{Data Distillation}
+To mitigate this dependence on lexicalized information 
+we devised some novel de-lexicalization methods
+that replace concepts with their respective semantic classes \cite{panenghat2020towards,suntwal-etal-2019-importance}. For example one type of delexicalization included replacing the proper noun `J.R.R.Tolkien' with its named entity class, \texttt{PERSON}. In another technique we replace `J.R.R.Tolkien' with a more finer semantic class, \texttt{AUTHOR}. Further we ensure that such replacements done in both claims and evidence data in a fact verification task are aligned.  For instance, if a concept appears first in the claim, it is assigned an identifier post-fixed with C{\em n}; if it appears only in evidence then it is post-fixed with E{\em n}, where C indicates that the entity appeared first in the claim, E indicates that the entity first appeared in the evidence, and {\em n} indicates the {\em n}th observed entity. By generalizing these concepts to more abstract forms, we demonstrated that these methods encourage neural networks to look beyond lexical patterns and extract underlying semantic knowledge that can be transferred from one domain to another. For example a model trained on our approach outperformed a model trained on the original, fully-lexicalized texts by over 10\% accuracy when evaluated out of domain. For example a model trained on our approach outperformed a model trained on the original, fully-lexicalized texts by over 10\% accuracy when evaluated out of domain.
+ 
+ 
+\subsubsection{Model Distillation} 
 
 
+
+ A critical unsolved issue that remained after data distillation was \textit{how much} delexicalization should be applied?
+ While a little delexicalization (e.g., `J.R.R.Tolkien' to \texttt{PERSON}) helps reduce over-fitting, too much delexicalization (e.g., `J.R.R.Tolkien' to \texttt{AUTHOR}) might discard useful information. To solve this problem we introduced Group Learning (GL), a \textit{novel model distillation architecture} based on the
+ teacher-student paradigm \cite{hinton2015distilling}.
+ Specifically, in our architecture multiple models have access to different perspectives of the same data, each delexicalized with a different level of granularity. These models then compete with each other, and also learn from each other through pair-wise consistency losses, to arrive at the right level of abstraction needed for data distillation. We showed that not only is our approach classifier agnostic, it also transfers learning across various domains \cite{mithun2021data}. Further, this approach thus reduces the computational overhead (and, thus, carbon footprint) caused by having to train neural network based methods every time they need to make predictions on new fact verification domains or datasets.
+ 
+\subsection{Other Research Contributions }
+
+Last but not the least, along with my research on fact verification, I have been involved with many other collaborative research and development efforts in our lab. For example I contributed to the DARPA World Modelers project, which resulted in the creation of Eidos, an open-domain
+machine reading system designed to extract
+causal relations from natural language especially in documents relevant to national and global security. Specifically, I contributed to the creation of a method for quickly and efficiently generating groundings for a set of gradable adjectives, i.e., adjectives that can take a range of magnitudes (e.g., \textit{small}) \cite{sharp2018grounding}. The resulting trained model was able to estimate the impact of novel instances of gradable adjectives found in text. This is an important contribution because it reduced the ambiguity in the machine reading process of texts which describe causal interactions using vague, high-level language. 
+
+Currently I work on DARPA Habitus project, an effort to create methodologies for creating predictive, causal models of local systems based on input from local population in African Countries. For example, we have devised models that can predict the credit worthiness of a farmer based on his answers to questions in certain agricultural surveys. This serves as input to creating
+comprehensive models of local systems which would be generalizable across regions and populations. This is important because it makes local knowledge available to military operators, providing them with an insider view to support decision making.
+\section*{Future Work}
+To date, my work has led to publications in several top NLP conferences (EMNLP, NAACL, and ACL workshop). Looking forward, I will:
+\begin{itemize}
+\item Address grand challenges with a tangible impact in our society. For example, I plan to utilize the fact verification algorithms I have created to compare any given text (e.g., a news article) with other similar texts, aggregate this global information into a graph form, and recursively traverse this graph to arrive at a \textit{veracity} score for each text. By automatically calculating, associating and displaying such a score for articles found on the social media, I hope to enable the population of interest to assess the truthfulness of such articles.
+
+\item Continue to work on fundamental research issues. For example, I would like to use my NLI techniques I towards building a universal natural language processing model with few shot entailment (few shot is a methodology where we train a model in a source domain and use it in target domain without re-training it. This is done when we cannot obtain rich annotation on a target domain or task). 
+Specifically, this is inspired from \cite{yin2020universal} and I am currently involved in a collaborative effort with the first author of this work, where we are trying to understand how well does a pre-trained textual entailment system generalize across domains with only a handful of domain specific examples. Next we plan to understand when is it worth transforming an NLP task into a textual entailment problem. For example a question answering problem can be formulated as a textual entailment problem where the document acts as the premise, and the question, answer
+candidate pair, after converting into a natural sentence,
+acts as the hypothesis. We hope to demonstrate that our framework enables a pre-trained entailment model to work well on new entailment domains in a few-shot setting. Further we hope to show its effectiveness as a unified solver for several downstream NLP tasks such as question answering  when the end-task annotations are limited.
+
+\end{itemize}
+
+{\flushleft Signature:}
+\bigskip
+\bigskip
+\bibliographystyle{acm}
+\bibliography{custom}
 \end{document}
 
 
